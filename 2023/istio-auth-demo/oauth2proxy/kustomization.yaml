@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base/
+- oauth2proxy.yaml
+
+patchesJson6902:
+  - target:
+      kind: VirtualService
+      name: bookinfo
+      group: networking.istio.io
+      version: v1alpha3
+    path: patch-virtualservice.yaml
+configMapGenerator:
+  - name: oauth2proxy
+    files: [oauth2proxy.cfg]
+secretGenerator:
+  - name: oauth2proxy
+    envs: [oauth2proxy.env]

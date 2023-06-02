@@ -1,0 +1,32 @@
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: authn
+  namespace: bookinfo
+spec:
+  jwtRules:
+    - issuer: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_pppCUp9yr
+      jwksUri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_pppCUp9yr/.well-known/jwks.json
+      fromHeaders:
+        - name: X-Forwarded-Access-Token
+      # OAuth2 Proxy가 JWT 토큰을 넘겨주는 default header는 `X-Forwarded-Access-Token`입니다.
+      # Istio는 이 JWT 토큰을 해석해 사용자의 신원을 파악합니다.
+      forwardOriginalToken: true
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: developers-only
+  namespace: bookinfo
+spec:
+  selector:
+    matchLabels:
+      permission: developer
+  action: DENY
+  rules:
+    - from:
+        - source:
+            notNamespaces: [bookinfo]
+      when:
+        - key: request.auth.claims[cognito:groups]
+          notValues: [developer]

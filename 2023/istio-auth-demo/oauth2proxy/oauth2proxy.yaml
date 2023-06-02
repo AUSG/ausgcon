@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oauth2proxy
+  labels:
+    app: oauth2proxy
+spec:
+  ports:
+  - port: 80
+    name: http
+    targetPort: 4180
+  selector:
+    app: oauth2proxy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2proxy
+  labels:
+    app: oauth2proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oauth2proxy
+  template:
+    metadata:
+      labels:
+        app: oauth2proxy
+    spec:
+      containers:
+        - name: oauth2proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
+          args:
+            - --oidc-issuer-url
+            - $(BOOKINFO_OIDC_ISSUER_URL)
+            - --redirect-url
+            - $(BOOKINFO_REDIRECT_URL)
+            - --client-id
+            - $(BOOKINFO_CLIENT_ID)
+            - --client-secret
+            - $(BOOKINFO_CLIENT_SECRET)
+            - --config
+            - /etc/oauth2proxy.cfg
+          volumeMounts:
+            - mountPath: /etc/oauth2proxy.cfg
+              subPath: oauth2proxy.cfg
+              name: config
+          ports:
+            - containerPort: 4180
+              name: http
+          envFrom:
+            - secretRef:
+                name: oauth2proxy
+                optional: false
+      volumes:
+        - name: config
+          configMap:
+            name: oauth2proxy
+            optional: false

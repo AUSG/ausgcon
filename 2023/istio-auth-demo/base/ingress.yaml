@@ -1,0 +1,99 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      tls:
+        httpsRedirect: true
+      hosts:
+      - "bookinfo.ausg.jinsu.me"
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: bookinfo
+      hosts:
+        - "bookinfo.ausg.jinsu.me"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bookinfo
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - bookinfo
+  http:
+    - match:
+        - uri:
+            prefix: /details
+      route:
+        - destination:
+            host: details
+            port:
+              number: 9080
+    - match:
+        - uri:
+            prefix: /reviews
+      route:
+        - destination:
+            host: reviews
+            port:
+              number: 9080
+    - match:
+        - uri:
+            prefix: /ratings
+      route:
+        - destination:
+            host: ratings
+            port:
+              number: 9080
+    - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            prefix: /static
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/product
+      route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+    - route:
+        - destination:
+            host: httpbin
+            port:
+              number: 80
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bookinfo
+  namespace: istio-ingress
+  labels:
+    domain: bookinfo
+spec:
+  commonName: bookinfo.ausg.jinsu.me
+  dnsNames:
+    - bookinfo.ausg.jinsu.me
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: jinsulab
+  secretName: bookinfo
+
