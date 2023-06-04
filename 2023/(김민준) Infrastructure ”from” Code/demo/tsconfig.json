@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "CommonJS",
+    "outDir": "./dist"
+  },
+  "exclude": ["**/*.js", "dist", "compiled", "node_modules"]
+}
