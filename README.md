@@ -6,7 +6,7 @@
 
 - [(김민준) Infrastructure ”from” Code](/2023/(김민준)%20Infrastructure%C2%A0”from”%C2%A0Code)
 - [(김수빈) Terraform으로 개발 생산성 높이기](/2023/(김수빈)%20Terraform으로%20개발%20생산성%20높이기)
-- [(문성혁) 인증의 오아시스 OIDC를 아시나요?](/2023/(문성혁)%20인증의%20오아시스%20OIDC를%20아시나요%3F)
+- [(문성혁) 인증의 오아시스 OIDC를 아시나요?](/2023/(문성혁)%20인증의%20오아시스%2C%20OIDC를%20아시나요%3F)
 - (박진수) 웹 프로젝트에서 빠지지 않는 인증, 인가 및 유저 관리. Istio와 Cognito로 대체해보자!
   - [발표 자료](https://docs.google.com/presentation/d/1kv2Nyy7fCIDCcxbptIVxlSSMePmVW4qz7Vvbd_cqS5k/edit?usp=sharing)
   - [데모 자료](./2023/istio-auth-demo)
