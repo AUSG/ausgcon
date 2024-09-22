@@ -1,8 +1,8 @@
 # AUSGCON
 
-> 아우쓱콘 발표 자료를 모아두기 위한 리포입니다.
+> AUSGCON (아우쓱콘) 발표 자료를 모아두기 위한 저장소입니다.
 
-## 2023 AUSGCON 발표 목록
+## AUSGCON 2023 발표 목록
 
 - [(김민준) Infrastructure "from" Code](/2023/(김민준)%20Infrastructure%C2%A0"from"%C2%A0Code)
 - [(김수빈) Terraform으로 개발 생산성 높이기](/2023/(김수빈)%20Terraform으로%20개발%20생산성%20높이기)
